@@ -1,5 +1,5 @@
 joint_limits:
-    joint1:
+    my_joint:
       has_position_limits: false
       min_position: 0
       max_position: 0

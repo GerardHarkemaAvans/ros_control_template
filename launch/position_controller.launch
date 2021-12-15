@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="use_arduino" default="true"/>
+
+  <group if="$(arg use_arduino)">
+    <node name="serial_node"        pkg="rosserial_python"      type="serial_node.py">
+    <param name="port"              type="string"               value="/dev/ttyACM0"/>
+    <param name="baud"              type="int"                  value="57600"/>
+    </node>
+  </group>
+
+  <group unless="$(arg use_arduino)">
+    <node name="fake_controller" pkg="ros_control_template" type="fake_controller.py" output="screen"/>
+  </group>
+
+
+  <rosparam file="$(find ros_control_template)/config/controllers.yaml" command="load"/>
+  <rosparam file="$(find ros_control_template)/config/joint_limits.yaml" command="load"/>
+
+  <arg name="model" default="$(find ros_control_template)/urdf/single_joint_actuator.urdf.xacro"/>
+  <arg name="gui" default="true" />
+
+  <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)" />
+  <param name="use_gui" value="$(arg gui)"/>
+
+  <node name="robot_hardware_interface" pkg="ros_control_template" type="ros_control_template_node" output="screen"/>
+
+<!--
+  <node name="subscriber_py" pkg="ros_control_template" type="joints_receive_from_arduino.py" output="screen"/>
+-->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
+  </node>
+
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ros_control_template)/support/config/ros_control_template.rviz"/>
+<!--
+  <node name="rviz" pkg="rviz" type="rviz" />
+-->
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
+        args="
+        	/single_joint_actuator/joints_update
+            /single_joint_actuator/joint_position_controller
+        "/>
+</launch>

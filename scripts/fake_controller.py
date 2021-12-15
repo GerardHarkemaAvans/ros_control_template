@@ -8,7 +8,7 @@ current_setpoint_value = Float64()
 
 # Topic callback function.
 def setpointValueListenerCallback(setpoint_value):
-    rospy.loginfo('%s', setpoint_value.data)
+    #ospy.loginfo('%s', setpoint_value.data)
     current_setpoint_value.data = setpoint_value.data
 
 def fakeControllerHandler():

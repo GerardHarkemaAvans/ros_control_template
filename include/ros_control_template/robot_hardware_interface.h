@@ -21,25 +21,24 @@ public:
 	void write(ros::Duration elapsed_time);
 
 private:
-  //hardware_interface::JointStateInterface jnt_state_interface;
-  //hardware_interface::PositionJointInterface jnt_pos_interface;
 
-  hardware_interface::JointStateInterface joint_state_interface_;
-  hardware_interface::PositionJointInterface position_joint_interface_;
+  hardware_interface::JointStateInterface joint_state_interface;
+  hardware_interface::PositionJointInterface position_joint_interface;
 
-
-
-	int num_joints_;
-	std::string joint_names_[1];
-	double joint_position_[1];
-	double joint_velocity_[1];
-	double joint_effort_[1];
-	double joint_position_command_[1];
+	int num_joints;
+	std::string joint_names[1];
+	double joint_position[1];
+	double joint_velocity[1];
+	double joint_effort[1];
+	double joint_position_command[1];
   joint_limits_interface::JointLimits limits[1];
 
-	ros::NodeHandle nh_;
-	ros::Timer non_realtime_loop_;
-	ros::Duration elapsed_time_;
-	double loop_hz_;
-	boost::shared_ptr<controller_manager::ControllerManager> controller_manager_;
+	ros::NodeHandle nh;
+	ros::Timer non_realtime_loop;
+	ros::Duration elapsed_time;
+	double loop_hz;
+	boost::shared_ptr<controller_manager::ControllerManager> controller_manager;
+
+  ros::Publisher setpoint_value_pub;
+
 };

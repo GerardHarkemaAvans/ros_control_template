@@ -48,7 +48,7 @@
     </visual>
    </link>
  
-   <joint name="joint1" type="continuous">
+   <joint name="my_joint" type="continuous">
      <axis xyz="0 0 1"/>
      <origin rpy="0 0 0" xyz="0.02 0 0.01"/>
      <parent link="motor_gear_box"/>
